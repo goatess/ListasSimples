@@ -34,11 +34,10 @@ class StringList{
         }else fullString += " " + Item;
         return fullString;
     }
-  
     public void deleteSubString(){
-        fullString = fullString.replaceAll(deleteThisString, ""); // by value
-        //    StringBuffer replace(int start,int end,String str);                // by position
+        fullString = fullString.replaceAll(deleteThisString, "");
     }
+
     //setters and getters os StringList
     public String getFullString() {
         return fullString;
@@ -108,6 +107,20 @@ class ArrayItemsList {
         }
         return arrayList;
     }
+    public String[] eliminateListPosition(String searchedItem){
+        deleteArrayElement(searchItemPosition(searchedItem));
+        arrayToString();
+        stringintoArray();
+        return arrayList;
+    }
+    public String[] eliminateListPosition(int i){
+        deleteArrayElement(i);
+        arrayToString();
+        stringintoArray();
+        return arrayList;
+    }
+
+    // Getters and Setters of ArrayItemsList
     public void setAllItems(String allItems) {
         this.allItems = allItems;
         setArrayList(stringintoArray());

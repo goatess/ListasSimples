@@ -152,4 +152,37 @@ public class AppTest {
         assertArrayEquals(expectedArray, actualArray);
     }
     
+    @Test
+    public void checkEliminateListPositionBySearchWord(){
+        //arrange
+        final String[] expectedArray = {"es","un","lenguaje"};
+        ArrayItemsList arrayItemsList = new ArrayItemsList();
+
+        //act
+        arrayItemsList.setAllItems("Java es un lenguaje");
+        arrayItemsList.eliminateListPosition("Java");
+
+        String[] actualArray = arrayItemsList.getArrayList();
+
+        //assert
+        assertArrayEquals(expectedArray, actualArray);
+    }
+
+    @Test
+    public void checkEliminateListPositionByIndex(){
+        //arrange
+        final String[] expectedArray = {"es","un","lenguaje"};
+        ArrayItemsList arrayItemsList = new ArrayItemsList();
+
+        //act
+        arrayItemsList.setAllItems("Java es un lenguaje");
+        arrayItemsList.eliminateListPosition(0);
+
+        String[] actualArray = arrayItemsList.getArrayList();
+
+        //assert
+        assertArrayEquals(expectedArray, actualArray);
+    }
+    
+    
 }
