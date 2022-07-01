@@ -2,9 +2,8 @@ import java.util.Arrays;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        StringList stringList = new StringList();
         ArrayItemsList arrayItemsList = new ArrayItemsList();
-        System.out.println(stringList.generateRandomNumbersList());
+        arrayItemsList.stringintoArray();
     }
 }
 
@@ -17,59 +16,104 @@ class StringList{
     String deleteThisString = "";
     String searchedItem = "informática";
     int searchPosition = 0;
+    int offset;
+    String word = "";
+    String deleteThisWord = "";
     
-    public String generateRandomNumbersList(){
-        int min = 0;
-        int max = 300;
-        fullString = "";
-        for (int i = 0; i < numberOfPositions; i++) {  
-            int randomNumber = (int)Math.floor(Math.random()*(max - min + 1) + min);
-            Item = String.valueOf(randomNumber); 
-            addString();
-        }return fullString; 
-    }
-    public String addString(){
+    public String addSubString(){
         if (fullString == ""){
             fullString = Item;
-        }else fullString += " " + Item;
+        }else fullString += ", " + Item;
         return fullString;
     }
-    public void deleteSubString(){
+    public String divideString(int searchPosition){
+        for (int i = searchPosition; fullString.charAt(searchPosition) != ' ' && i < fullString.length(); i++) {
+            if (fullString.charAt(i) != ' '){
+                word += fullString.charAt(i); 
+            } else {
+                deleteThisWord = word;
+                deleteThisWord += fullString.charAt(i); 
+                break;
+            } 
+        }
+        return deleteThisWord;
+    }
+    public void deleteSubString(String deleteThisString){
+        deleteThisString = "informática";
+        getSearchPosition(deleteThisString);
+        getOffset(deleteThisString);
+        String result = fullString.substring(searchPosition, offset + 1); 
+        deleteThisString = result;
         fullString = fullString.replaceAll(deleteThisString, "");
+    }
+    public void deleteSubString(int searchPosition){
+        divideString(searchPosition);
+        deleteThisString = deleteThisWord;
+        fullString = fullString.replaceAll(deleteThisString, "");
+        System.out.println(fullString);
     }
 
     //setters and getters os StringList
     public String getFullString() {
         return fullString;
     }
-    public void setFullString(String allItems) {
-        this.fullString = allItems;
+    public void setFullString(String fullString) {
+        this.fullString = fullString;
     }
     public void setItem(String item) {
         Item = item;
     }
     public int getSearchPosition(String searchedItem) {
         isFound = fullString.contains(searchedItem);
-        searchPosition = fullString.indexOf(searchedItem);
+        searchPosition = fullString.indexOf(searchedItem); 
         return searchPosition;
+    }
+    public int getOffset(String searchedItem){
+        offset = searchedItem.length();
+        offset += fullString.indexOf(searchedItem);
+        return offset;
     }
     public void setDeleteThisString(String deleteThisString) {
         this.deleteThisString = deleteThisString;
-        deleteSubString();
+        deleteSubString(deleteThisString);
+    }
+      public void setDeleteThisString(int searchPosition) {
+        this.searchPosition = searchPosition;
+        deleteSubString(searchPosition);
     }
 }
 
 // A list of items in an Array
 class ArrayItemsList {
-    String[] arrayList = null;
     StringList stringList = new StringList();
-    String allItems = stringList.getFullString();
-    //String arrayToString = "";
+    String[] arrayList = null;
+    String allItems = "";
     String searchedItem = "informática";
     int searchPosition = 0;
+    boolean comparation = true;
+    int arrayPosition = 0;
+    
+    public Boolean [] compareStringtoArray(){
+        allItems = stringList.fullString;
+        stringintoArray();
+        arrayToStringNoComma();
+        Boolean [] bool = new Boolean[arrayList.length];
+        Arrays.fill(bool, Boolean.TRUE);
+        if(arrayList.equals(allItems)) {
+            comparation = true; 
+            System.out.println("true");
+        }
+        else {
+            comparation = false;
+            System.out.println("false");
+        }
+        return bool;   
+    } 
 
     public String [] stringintoArray(){
-        allItems = allItems.replaceAll("[\\.\\,\\(\\)]", "");
+        if (allItems == ""){
+            allItems = stringList.getFullString();
+        }else allItems = allItems.replaceAll("[\\.\\,\\(\\)]", "");
         arrayList = allItems.split(" "); 
         return arrayList;
     }
@@ -81,13 +125,22 @@ class ArrayItemsList {
         for (int i = 0; i < arrayList.length; i++) {
             if (allItems == ""){
                 allItems = arrayList[i];
-            }else allItems += " " + arrayList[i];
-        }allItems = allItems.replaceAll("[\\.\\,\\(\\)]", "");
+            }else allItems += ", " + arrayList[i];
+        }
         return allItems; 
     }
-    public String arrayListToString(){
+    public String arrayToStringNoComma(){
+        allItems = "";
+        for (int i = 0; i < arrayList.length; i++) {
+            if (allItems == ""){
+                allItems = arrayList[i];
+            }else allItems += " " + arrayList[i];
+        }
+        return allItems; 
+    }
+        public String arrayListToString(){ 
         allItems = Arrays.toString(arrayList);
-        allItems = allItems.replaceAll("[\\.\\,\\(\\)]", "");
+        allItems = allItems.replaceAll("[\\.\\\\(\\)]", "");
         return allItems;
     }
     public int searchItemPosition(String searchedItem){
@@ -107,14 +160,14 @@ class ArrayItemsList {
         }
         return arrayList;
     }
-    public String[] eliminateListPosition(String searchedItem){
+    public String[] eliminateArrayPosition(String searchedItem){
         deleteArrayElement(searchItemPosition(searchedItem));
         arrayToString();
         stringintoArray();
         return arrayList;
     }
-    public String[] eliminateListPosition(int i){
-        deleteArrayElement(i);
+    public String[] eliminateArrayPosition(int arrayPosition){
+        deleteArrayElement(arrayPosition);
         arrayToString();
         stringintoArray();
         return arrayList;
@@ -123,12 +176,26 @@ class ArrayItemsList {
     // Getters and Setters of ArrayItemsList
     public void setAllItems(String allItems) {
         this.allItems = allItems;
-        setArrayList(stringintoArray());
+    }
+    public String getAllItems() {
+        return allItems;
     }
     public String[] getArrayList() {
         return arrayList;
     }
     public void setArrayList(String[] arrayList) {
         this.arrayList = arrayList;
+    }
+
+    public boolean getComparation(){
+        return comparation;
+    }
+    public void setEliminateArrayPosition (String searchedItem){
+        this.searchedItem = searchedItem;
+        eliminateArrayPosition(searchedItem);
+    }
+    public void setEliminateArrayPosition (int arrayPosition){
+        this.arrayPosition = arrayPosition;
+        eliminateArrayPosition(arrayPosition);
     }
 }
