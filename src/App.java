@@ -2,9 +2,6 @@ import java.util.Arrays;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        ArrayList arrayItemsList = new ArrayList();
-        arrayItemsList.stringToArray();
-        arrayItemsList.compareStringtoArray();
     }
 }
 
@@ -38,23 +35,26 @@ class SimpleList {
             if (nextChar != ' ') {
                 item += nextChar;
             } else {
-                itemWithSpace = item; 
+                itemWithSpace = item;
                 itemWithSpace += nextChar;
                 break;
             }
         }
+        this.position_string = position;
         return item;
     }
 
-    public void deleteItem_ByValue(String value) {
-        list = list.replaceFirst(value, "");
-    }
+    void deleteItem_ByPosition(int position) {
+        StringBuilder list = new StringBuilder();
+        String item = searchItem(position);
+        int offset = item.length() + position + 1;
+        list.append(this.list);
+        if (list.charAt(position - 1) == ' ') {
+            list.delete(position, offset);
+            this.list = list.substring(0);
 
-    public String deleteItem_ByPosition(int position) {
-        searchItem(position);
-        // item = itemWithSpace;
-        list = list.replaceAll(item, "");
-        return list;
+        } else
+            System.out.println("position " + position + " is not a valid position");
     }
 
     // setters and getters os StringList
@@ -85,11 +85,6 @@ class SimpleList {
         return itemLength;
     }
 
-    public void setDeleteSubString(String item) {
-        this.item = item;
-        deleteItem_ByValue(item);
-    }
-
     public void setDeleteSubString(int position) {
         this.position_string = position;
         deleteItem_ByPosition(position);
@@ -106,7 +101,7 @@ class ArrayList {
     boolean stringEqualsArray = true;
     int itemPosition_array = 0;
 
-    public String[] stringToArray() {
+    public String[] convertToArray() {
         if (list == "") {
             list = simpleList.getList_string();
         } else
@@ -115,11 +110,7 @@ class ArrayList {
         return listArray;
     }
 
-    public void sortArray() {
-        Arrays.sort(listArray);
-    }
-
-    public String convertArrayToString() {
+    public String convertToString() {
         for (int i = 0; i < listArray.length; i++) {
             if (list == "") {
                 list = listArray[i];
@@ -129,42 +120,8 @@ class ArrayList {
         return list;
     }
 
-    public String convertArrayToString_Format() {
-        list = list.replaceAll("[\\.\\\\(\\)]", "");
-        list = Arrays.toString(listArray);
-        return list;
-    }
-
-    public int searchItemPosition(String searchedItem) {
-        for (int i = 0; i < listArray.length; i++) {
-            if (listArray[i].equals(searchedItem)) {
-                return i;
-            }
-        }
-        return itemPosition_string;
-    }
-
-    public String searchItemValue(int position) {
-        return itemValue;
-    }
-
-    public String[] eliminatePosition(String item) {
-        int pos = searchItemPosition(item);
-        listArray[pos] = "";
-        convertArrayToString();
-        stringToArray();
-        return listArray;
-    }
-
-    public String[] eliminatePosition(int position) {
-        listArray[position] = "";
-        convertArrayToString();
-        stringToArray();
-        return listArray;
-    }
-
     public Boolean compareStringtoArray() {
-        stringToArray();
+        convertToArray();
         int position = 0;
         String item = "";
         String arrayItem = "";
@@ -197,16 +154,6 @@ class ArrayList {
 
     public void setFullString(String allItems) {
         this.list = allItems;
-    }
-
-    public void setEliminatePosition(String searchedItem) {
-        eliminatePosition(searchedItem);
-        this.itemValue = searchedItem;
-    }
-
-    public void setEliminatePosition(int arrayPosition) {
-        eliminatePosition(arrayPosition);
-        this.itemPosition_array = arrayPosition;
     }
 
     public boolean getComparation() {

@@ -65,48 +65,34 @@ public class AppTest {
     }
 
     @Test
-    public void deleteItem_ByValue() {
-        // arrange
-        final int expectedPosition = -1;
-        SimpleList stringList = new SimpleList();
-
-        // act
-        stringList.setList_string(
-                "Java es un lenguaje de programación y una plataforma informática que fue comercializada por primera vez en 1995 por Sun Microsystems");
-        stringList.setDeleteSubString("informática");
-        int actualPosition = stringList.getPosition_string("informática");
-
-        // assert
-        assertEquals(expectedPosition, actualPosition);
-    }
-
-    @Test
     public void deleteItem_ByPosition_chekPosition() {
         // arrange
-        final int expectedPosition = -1;
+        final String expectedValue = "que";
         SimpleList simpleList = new SimpleList();
 
         // act
         simpleList.setList_string(
                 "Java es un lenguaje de programación y una plataforma informática que fue comercializada por primera vez en 1995 por Sun Microsystems");
-        simpleList.setDeleteSubString(53);
-        int actualPosition = simpleList.getPosition_string("informática");
-
+        simpleList.deleteItem_ByPosition(53);
+        String actualValue = simpleList.searchItem(53);
         // assert
-        assertEquals(expectedPosition, actualPosition);
+        assertEquals(expectedValue, actualValue);
     }
 
     @Test
-    public void compareSimpleListToArray() {
+    public void deleteItem_ByPosition() {
         // arrange
-        final boolean expectedComparation = true;
-        ArrayList arrayList = new ArrayList();
+        final String expectedValue = "";
+        SimpleList simpleList = new SimpleList();
 
         // act
-        boolean actualComparation = arrayList.getComparation();
-
+        simpleList.setList_string(
+                "Java es un lenguaje de programación y una plataforma informática que fue comercializada por primera vez en 1995 por Sun Microsystems");
+        simpleList.deleteItem_ByPosition(64);
+        String actualValue = simpleList.searchItem(64);
+       
         // assert
-        assertEquals(expectedComparation, actualComparation);
+        assertEquals(expectedValue, actualValue);
     }
 
     @Test
@@ -117,7 +103,7 @@ public class AppTest {
 
         // act
         arrayItemsList.setFullString("Java es un ");
-        arrayItemsList.stringToArray();
+        arrayItemsList.convertToArray();
         String[] actualArray = arrayItemsList.getAllItemsArray();
 
         // assert
@@ -133,26 +119,11 @@ public class AppTest {
         // act
         String[] testArray = { "Java", "es", "un" };
         arrayItemsList.setFullArray(testArray);
-        arrayItemsList.convertArrayToString();
+        arrayItemsList.convertToString();
         String actualString = arrayItemsList.getFullString();
 
         // assert
         assertEquals(expectedString, actualString);
-    }
-
-    @Test
-    public void arrayEqualsToAnotherArray() {
-        // arrange
-        final String[] expectedArray = { "Java", "es", "un" };
-        ArrayList arrayItemsList = new ArrayList();
-
-        // act
-        arrayItemsList.setFullString("Java es un ");
-        arrayItemsList.stringToArray();
-        String[] actualArray = arrayItemsList.getAllItemsArray();
-
-        // assert
-        assertArrayEquals(expectedArray, actualArray);
     }
 
     @Test
@@ -170,53 +141,5 @@ public class AppTest {
 
         // assert
         assertEquals(expectedBoolean, actualBoolean);
-    }
-
-    @Test
-    public void searchArrayItemPosition() {
-        // arrange
-        final int expectedPosition = 9;
-        ArrayList arrayItemsList = new ArrayList();
-
-        // act
-        arrayItemsList.setFullString(
-                "Java es un lenguaje de programación y una plataforma informática que fue comercializada por primera vez en 1995 por Sun Microsystems");
-        arrayItemsList.stringToArray();
-        int actualPosition = arrayItemsList.searchItemPosition("informática");
-
-        // assert
-        assertEquals(expectedPosition, actualPosition);
-    }
-
-    @Test
-    public void eliminateArrayPositionByValue() {
-        // arrange
-        String[] testArray = { "Java", "es", "un", "lenguaje" };
-        final String[] expectedArray = { "es", "un", "lenguaje" };
-        ArrayList arrayItemsList = new ArrayList();
-
-        // act
-        arrayItemsList.setFullArray(testArray);
-        arrayItemsList.eliminatePosition("Java");
-        String[] actualArray = arrayItemsList.getAllItemsArray();
-
-        // assert
-        assertArrayEquals(expectedArray, actualArray);
-    }
-
-    @Test
-    public void eliminateArrayPositionByIndex() {
-        // arrange
-        String[] testArray = { "Java", "es", "un", "lenguaje" };
-        final String[] expectedArray = { "es", "un", "lenguaje" };
-        ArrayList arrayItemsList = new ArrayList();
-
-        // act
-        arrayItemsList.setFullArray(testArray);
-        arrayItemsList.eliminatePosition(0);
-        String[] actualArray = arrayItemsList.getAllItemsArray();
-
-        // assert
-        assertArrayEquals(expectedArray, actualArray);
     }
 }
