@@ -6,7 +6,7 @@ public class App {
 class SimpleList {
     String list = "";
 
-    public String addItem(String item) {
+    String addItem(String item) {
         if (list == "") {
             list = item;
         } else
@@ -14,23 +14,24 @@ class SimpleList {
         return list;
     }
 
-    public int searchItem_ByValueANDList(String item, String list) {
-        int position = list.indexOf(item);
-        return position;
-    }
-    public int searchItem_ByValue(String item) {
+    int searchItem_ByValueANDList(String item, String list) {
         int position = list.indexOf(item);
         return position;
     }
 
-    public String searchItem_ByPosition(int position) {
+    int searchItem_ByValue(String item) {
+        int position = list.indexOf(item);
+        return position;
+    }
+
+    String searchItem_ByPosition(int position) {
         String item = "";
         for (int i = position; i < list.length(); i++) {
             char nextChar = list.charAt(i);
             if (nextChar != ' ') {
                 item += nextChar;
             } else {
-                String itemWithSpace = item; 
+                String itemWithSpace = item;
                 itemWithSpace += nextChar;
                 break;
             }
@@ -63,13 +64,13 @@ class ArrayList {
     String[] arrList = new String[] {};
     SimpleList sList = new SimpleList();
 
-    public void convertToArray(String list) {
+    void convertToArray(String list) {
         list = list.replaceAll("[\\.\\,\\(\\)]", "");
         arrList = list.split(" ");
         this.arrList = arrList;
     }
 
-    public String convertToString() {
+    String convertToString() {
         String list = "";
         for (int i = 0; i < arrList.length; i++) {
             list = sList.addItem(arrList[i]);
@@ -77,19 +78,19 @@ class ArrayList {
         return list;
     }
 
-    public Boolean compareToArray(String list, String[]arrList) {
+    Boolean compareToArray(String list, String[] arrList) {
         boolean equal = false;
         int position = 0;
         sList.setList_string(list);
         for (int i = 0; i < arrList.length; i++) {
-            String item = sList.searchItem_ByPosition(position); // item pos
+            String item = sList.searchItem_ByPosition(position); 
             if (arrList[i].equals(item)) {
                 equal = true;
             } else {
                 equal = false;
                 break;
             }
-            position += item.length() + 1;                 // next pos
+            position += item.length() + 1; 
         }
         return equal;
     }
